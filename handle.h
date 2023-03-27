@@ -14,6 +14,8 @@ namespace WinUtils
 
 		void setFunc(std::function<void()>);
 		void setWinHandle(HANDLE h);
+		bool ok() { return m_h != INVALID_HANDLE_VALUE; }
+
 		HANDLE* winHandle() { return &m_h; }
 
 	private:
