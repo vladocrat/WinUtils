@@ -8,6 +8,7 @@ namespace WinUtils
 	class Handle
 	{
 	public:
+		Handle();
 		Handle(HANDLE h, std::function<void()> close = {});
 		~Handle();
 
