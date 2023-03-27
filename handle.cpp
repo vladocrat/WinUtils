@@ -14,4 +14,15 @@ namespace WinUtils
 			m_closeFunc();
 		}
 	}
+
+	void Handle::setFunc(std::function<void()> f)
+	{
+		m_closeFunc = f;
+	} 
+
+	void Handle::setWinHandle(HANDLE h)
+	{
+		m_h = h;
+	}
+
 } // WinUtils

@@ -12,6 +12,8 @@ namespace WinUtils
 		Handle(HANDLE h, std::function<void()> close = {});
 		~Handle();
 
+		void setFunc(std::function<void()>);
+		void setWinHandle(HANDLE h);
 		HANDLE* winHandle() { return &m_h; }
 
 	private:
