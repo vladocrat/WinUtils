@@ -9,9 +9,12 @@ namespace WinUtils
 
 	Handle::~Handle()
 	{
-		if (m_closeFunc)
+		if (!CloseHandle(m_h))
 		{
-			m_closeFunc();
+			if (m_closeFunc)
+			{
+				m_closeFunc();
+			}
 		}
 	}
 
