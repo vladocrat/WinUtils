@@ -1,8 +1,10 @@
 #pragma once
 
+#include <iostream>
+
 namespace WinUtils
 {
-	std::string getLastErrorAsString()
+	std::string lastErrorAsString()
 	{
 		auto errorMessage = GetLastError();
 
