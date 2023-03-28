@@ -5,7 +5,7 @@
 
 namespace WinUtils
 {
-	std::string lastErrorAsString()
+	inline std::string lastErrorAsString()
 	{
 		auto errorMessage = GetLastError();
 

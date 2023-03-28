@@ -8,5 +8,6 @@ add_library(win_utils
 "string_utils.h"
 "error.h"
 "handle.h"
-"handle.cpp")
+"handle.cpp"
+"file.h" "file.cpp")
 
