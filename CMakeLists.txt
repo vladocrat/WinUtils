@@ -9,5 +9,5 @@ add_library(win_utils
 "error.h"
 "handle.h"
 "handle.cpp"
-"file.h" "file.cpp")
+"file.h" "file.cpp" "file_builder.h" "file_builder.cpp")
 

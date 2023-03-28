@@ -3,6 +3,8 @@
 #include <Windows.h>
 #include <string>
 
+#include "file_builder.h"
+
 namespace WinUtils
 {
 	class File final
@@ -60,13 +62,6 @@ namespace WinUtils
 			WRITE_THROUGH = FILE_FLAG_WRITE_THROUGH
 		};
 
-		File() = default;
-		File(const std::string&);
-		File(const File&) = delete;
-		File(File&&) = delete;
-		File operator=(const File&) = delete;
-		~File();
-
 		void setFilePath(const std::string&);
 		void setWinHandle(HANDLE h);
 		void setSecurityAttributes(const LPSECURITY_ATTRIBUTES&);
@@ -76,8 +71,9 @@ namespace WinUtils
 		void setFlags(Flags);
 		void setAttributes(Attributes);
 
-		bool read();
-		bool write();
+		bool read(std::string&, uint8_t = 0);
+		bool readLine();
+		bool write(const std::string&);
 		bool open();
 
 		bool isOpen() { return m_h != INVALID_HANDLE_VALUE; }
@@ -92,6 +88,13 @@ namespace WinUtils
 		const DWORD flagsAndAttributes()				const { return m_attributes | m_flags; }
 
 	private:
+		File() = default;
+		File(const std::string&);
+		File(const File&);
+		File(File&&) = delete;
+		File operator=(const File&) = delete;
+		~File();
+
 		std::string m_filePath;
 		HANDLE m_h = INVALID_HANDLE_VALUE;
 		LPSECURITY_ATTRIBUTES m_secAttr = NULL;
@@ -100,5 +103,7 @@ namespace WinUtils
 		CreationDisposition m_creationDisposition = TRY_EXISTING;
 		Flags m_flags = NORMAL;
 		Attributes m_attributes = NONE;
+
+		friend class FileBuilder;
 	};
 } // WinUtils

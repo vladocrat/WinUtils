@@ -8,6 +8,18 @@ namespace WinUtils
 {
 	File::File(const std::string& filePath) : m_filePath(filePath) {}
 
+	File::File(const File& other)
+	{
+		this->setFilePath(other.m_filePath);
+		this->setAccess(other.m_access);
+		this->setAttributes(other.m_attributes);
+		this->setCreationDisposition(other.m_creationDisposition);
+		this->setFlags(other.m_flags);
+		this->setSecurityAttributes(other.m_secAttr);
+		this->setShareMode(other.m_sharedMode);
+		this->setWinHandle(other.m_h);
+	}
+
 	File::~File()
 	{
 		if (m_h == INVALID_HANDLE_VALUE)
@@ -63,18 +75,41 @@ namespace WinUtils
 		m_attributes = attr;
 	}
 
-	bool File::read()
+	bool File::readLine()
 	{
 		return false;
 	}
 
-	bool File::write()
+	bool File::read(std::string& buffer, uint8_t byteAmount)
 	{
-		return false;
+		//update to allow overlapped struct
+		return ReadFile(m_h,
+			&buffer,
+			byteAmount,
+			NULL,
+			NULL);
+	}
+
+	bool File::write(const std::string& str)
+	{
+		//update to allow overlapped struct
+		return WriteFile(m_h,
+			str.c_str(),
+			str.size(),
+			NULL,
+			NULL);
 	}
 
 	bool File::open()
 	{
-		return false;
+		m_h = CreateFile(m_filePath.c_str(),
+			m_access,
+			m_sharedMode,
+			m_secAttr,
+			m_creationDisposition,
+			flagsAndAttributes(),
+			NULL);
+
+		return isOpen();
 	}
 } // WinUtils
