@@ -3,10 +3,10 @@
 #include <Windows.h>
 #include <string>
 
-#include "file_builder.h"
-
 namespace WinUtils
 {
+	class FileBuilder;
+
 	class File final
 	{
 	public:
