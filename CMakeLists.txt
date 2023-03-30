@@ -1,13 +1,6 @@
-﻿cmake_minimum_required (VERSION 3.8)
+cmake_minimum_required (VERSION 3.8)
 
-project(win_utils CXX)
+project("WinUtils")
 
-add_library(win_utils
-"dir.h" 
-"dir.cpp"
-"string_utils.h"
-"error.h"
-"handle.h"
-"handle.cpp"
-"file.h" "file.cpp" "file_builder.h" "file_builder.cpp")
-
+add_subdirectory("WinUtils")
+add_subdirectory("testing")

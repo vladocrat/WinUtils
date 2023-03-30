@@ -46,6 +46,6 @@ namespace WinUtils
 
 	File FileBuilder::build()
 	{
-		return std::move(file);
+		return file;
 	}
 } // WinUtils

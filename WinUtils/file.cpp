@@ -8,19 +8,19 @@ namespace WinUtils
 {
 	File::File(const std::string& filePath) : m_filePath(filePath) {}
 
-	//File::File(const File& other)
-	//{
-	//	this->setFilePath(other.m_filePath);
-	//	this->setAccess(other.m_access);
-	//	this->setAttributes(other.m_attributes);
-	//	this->setCreationDisposition(other.m_creationDisposition);
-	//	this->setFlags(other.m_flags);
-	//	this->setSecurityAttributes(other.m_secAttr);
-	//	this->setShareMode(other.m_sharedMode);
-	//	this->setWinHandle(other.m_h);
-	//}
+	File::File(const File& other)
+	{
+		this->setFilePath(other.m_filePath);
+		this->setAccess(other.m_access);
+		this->setAttributes(other.m_attributes);
+		this->setCreationDisposition(other.m_creationDisposition);
+		this->setFlags(other.m_flags);
+		this->setSecurityAttributes(other.m_secAttr);
+		this->setShareMode(other.m_sharedMode);
+		this->setWinHandle(other.m_h);
+	}
 
-	File::File(File&& other) :
+	File::File(File&& other) noexcept :
 		m_h(other.m_h),
 		m_filePath(other.m_filePath),
 		m_secAttr(other.m_secAttr),
@@ -30,6 +30,12 @@ namespace WinUtils
 		m_flags(other.m_flags),
 		m_attributes(other.m_attributes)
 	{
+		other.m_h = nullptr;
+	}
+
+	File File::operator=(const File& other)
+	{
+		return File(other);
 	}
 
 	File::~File()
@@ -91,15 +97,24 @@ namespace WinUtils
 	{
 		return false;
 	}
-
-	bool File::read(std::string& buffer, uint8_t byteAmount)
+	
+	//update to allow overlapped struct 
+	//If byteamount == 0 read word.
+	bool File::read(std::string& str, uint8_t byteAmount)
 	{
-		//update to allow overlapped struct
-		return ReadFile(m_h,
-			&buffer,
+		auto buffer = new char[byteAmount + 1];
+
+		bool ok = ReadFile(m_h,
+			buffer,
 			byteAmount,
 			NULL,
 			NULL);
+
+		buffer[byteAmount] = '\0';
+		str = std::string(buffer);
+		delete[] buffer;
+
+		return ok;
 	}
 
 	bool File::write(const std::string& str)
