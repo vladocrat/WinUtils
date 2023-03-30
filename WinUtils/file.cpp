@@ -30,6 +30,12 @@ namespace WinUtils
 		m_flags(other.m_flags),
 		m_attributes(other.m_attributes)
 	{
+		other.m_h = nullptr;
+	}
+
+	File File::operator=(const File& other)
+	{
+		return File(other);
 	}
 
 	File::~File()
@@ -94,7 +100,8 @@ namespace WinUtils
 
 	bool File::read(std::string& buffer, uint8_t byteAmount)
 	{
-		//update to allow overlapped struct
+		//update to allow overlapped struct 
+		//If byteamount == 0 read word.
 		return ReadFile(m_h,
 			&buffer,
 			byteAmount,

@@ -66,7 +66,7 @@ namespace WinUtils
 		File(const std::string&);
 		File(const File&);
 		File(File&&) noexcept;
-		File operator=(const File&) = delete;
+		File operator=(const File&);
 		~File() noexcept;
 
 		void setFilePath(const std::string&);
@@ -83,7 +83,7 @@ namespace WinUtils
 		bool write(const std::string&);
 		bool open();
 
-		bool isOpen() const { return m_h != INVALID_HANDLE_VALUE; }
+		bool isOpen()									const { return m_h != INVALID_HANDLE_VALUE; }
 
 		const LPSECURITY_ATTRIBUTES secAttr()			const { return m_secAttr; }
 		const HANDLE winHandle()						const { return m_h; }

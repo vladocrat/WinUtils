@@ -2,6 +2,7 @@
 #include <iostream>
 
 #include "WinUtils/file_builder.h"
+#include "WinUtils/error.h"
 
 using namespace WinUtils;
 
@@ -16,7 +17,7 @@ TEST(FileTest, ConfigurationWithoutFilePath)
 TEST(FileTest, Configuration)
 {
 	auto file = FileBuilder()
-		.setFilePath("test_files\\readbytes_test.txt")
+		.setFilePath("readbytes_test.txt")
 		.build();
 
 	ASSERT_TRUE(file.open());
