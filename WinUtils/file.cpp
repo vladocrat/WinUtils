@@ -8,19 +8,19 @@ namespace WinUtils
 {
 	File::File(const std::string& filePath) : m_filePath(filePath) {}
 
-	//File::File(const File& other)
-	//{
-	//	this->setFilePath(other.m_filePath);
-	//	this->setAccess(other.m_access);
-	//	this->setAttributes(other.m_attributes);
-	//	this->setCreationDisposition(other.m_creationDisposition);
-	//	this->setFlags(other.m_flags);
-	//	this->setSecurityAttributes(other.m_secAttr);
-	//	this->setShareMode(other.m_sharedMode);
-	//	this->setWinHandle(other.m_h);
-	//}
+	File::File(const File& other)
+	{
+		this->setFilePath(other.m_filePath);
+		this->setAccess(other.m_access);
+		this->setAttributes(other.m_attributes);
+		this->setCreationDisposition(other.m_creationDisposition);
+		this->setFlags(other.m_flags);
+		this->setSecurityAttributes(other.m_secAttr);
+		this->setShareMode(other.m_sharedMode);
+		this->setWinHandle(other.m_h);
+	}
 
-	File::File(File&& other) :
+	File::File(File&& other) noexcept :
 		m_h(other.m_h),
 		m_filePath(other.m_filePath),
 		m_secAttr(other.m_secAttr),

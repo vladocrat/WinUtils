@@ -27,11 +27,11 @@ namespace WinUtils
 
 		enum CreationDisposition
 		{
-			TRY_CREATE = CREATE_ALWAYS,
-			TRY_NEW = CREATE_NEW,
-			TRY_OPEN = OPEN_ALWAYS,
-			TRY_EXISTING = OPEN_EXISTING,
-			TRY_TRUNCATE_EXISTING = TRUNCATE_EXISTING
+			TRY_CREATE = CREATE_ALWAYS,					//always new file
+			TRY_NEW = CREATE_NEW,						//create new if not exists 
+			TRY_OPEN = OPEN_ALWAYS,						//always open
+			TRY_EXISTING = OPEN_EXISTING,				//open if exists 
+			TRY_TRUNCATE_EXISTING = TRUNCATE_EXISTING	//open and trunc to 0 bytes
 		};
 
 		enum Flags
@@ -62,7 +62,12 @@ namespace WinUtils
 			WRITE_THROUGH = FILE_FLAG_WRITE_THROUGH
 		};
 
-		~File();
+		File() = default;
+		File(const std::string&);
+		File(const File&);
+		File(File&&) noexcept;
+		File operator=(const File&) = delete;
+		~File() noexcept;
 
 		void setFilePath(const std::string&);
 		void setWinHandle(HANDLE h);
@@ -78,7 +83,7 @@ namespace WinUtils
 		bool write(const std::string&);
 		bool open();
 
-		bool isOpen() { return m_h != INVALID_HANDLE_VALUE; }
+		bool isOpen() const { return m_h != INVALID_HANDLE_VALUE; }
 
 		const LPSECURITY_ATTRIBUTES secAttr()			const { return m_secAttr; }
 		const HANDLE winHandle()						const { return m_h; }
@@ -90,12 +95,6 @@ namespace WinUtils
 		const DWORD flagsAndAttributes()				const { return m_attributes | m_flags; }
 
 	private:
-		File() = default;
-		File(const std::string&);
-		File(const File&) = delete;
-		File(File&&);
-		File operator=(const File&) = delete;
-
 		std::string m_filePath;
 		HANDLE m_h = INVALID_HANDLE_VALUE;
 		LPSECURITY_ATTRIBUTES m_secAttr = NULL;

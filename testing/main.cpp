@@ -1,8 +1,9 @@
 #include <gtest/gtest.h>
 
-int main()
-{
-    ::testing::InitGoogleTest();
+#include "file_tests.h"
 
+int main(int argc, char** argv)
+{
+    ::testing::InitGoogleTest(&argc, argv);
 	return RUN_ALL_TESTS();
 }

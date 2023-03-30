@@ -15,6 +15,8 @@ FetchContent_MakeAvailable(googletest)
 
 include_directories(${WIN_UTILS})
 
-add_executable(win_utils_tests "main.cpp")
+add_executable(win_utils_tests
+"main.cpp" 
+"file_tests.h")
 
-target_link_libraries(win_utils_tests gtest_main)
+target_link_libraries(win_utils_tests gtest_main win_utils)
