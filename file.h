@@ -62,6 +62,8 @@ namespace WinUtils
 			WRITE_THROUGH = FILE_FLAG_WRITE_THROUGH
 		};
 
+		~File();
+
 		void setFilePath(const std::string&);
 		void setWinHandle(HANDLE h);
 		void setSecurityAttributes(const LPSECURITY_ATTRIBUTES&);
@@ -90,10 +92,9 @@ namespace WinUtils
 	private:
 		File() = default;
 		File(const std::string&);
-		File(const File&);
-		File(File&&) = delete;
+		File(const File&) = delete;
+		File(File&&);
 		File operator=(const File&) = delete;
-		~File();
 
 		std::string m_filePath;
 		HANDLE m_h = INVALID_HANDLE_VALUE;
