@@ -35,14 +35,20 @@ TEST(FileTest, ReadWithoutConfiguration)
 TEST(FileTest, ReadBytes)
 {
 	auto file = FileBuilder()
-		.setFilePath("test_files\\readbytes_test.txt")
+		.setFilePath("readbytes_test.txt")
 		.build();
 
+	if (!file.open())
+	{
+		std::cerr << "failed to open file: " << lastErrorAsString() << std::endl;
+		FAIL();
+	}
+
 	std::string result;
-	
+
 	if (!file.read(result, 4))
 	{
-		std::cerr << "failed to read" << std::endl;
+		std::cerr << "failed to read: " << lastErrorAsString() << std::endl;
 		FAIL();
 	}
 

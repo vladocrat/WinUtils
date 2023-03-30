@@ -97,16 +97,24 @@ namespace WinUtils
 	{
 		return false;
 	}
-
-	bool File::read(std::string& buffer, uint8_t byteAmount)
+	
+	//update to allow overlapped struct 
+	//If byteamount == 0 read word.
+	bool File::read(std::string& str, uint8_t byteAmount)
 	{
-		//update to allow overlapped struct 
-		//If byteamount == 0 read word.
-		return ReadFile(m_h,
-			&buffer,
+		auto buffer = new char[byteAmount + 1];
+
+		bool ok = ReadFile(m_h,
+			buffer,
 			byteAmount,
 			NULL,
 			NULL);
+
+		buffer[byteAmount] = '\0';
+		str = std::string(buffer);
+		delete[] buffer;
+
+		return ok;
 	}
 
 	bool File::write(const std::string& str)
