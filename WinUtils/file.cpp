@@ -117,9 +117,9 @@ namespace WinUtils
 		return ok;
 	}
 
+	//update to allow overlapped struct
 	bool File::write(const std::string& str)
 	{
-		//update to allow overlapped struct
 		return WriteFile(m_h,
 			str.c_str(),
 			str.size(),

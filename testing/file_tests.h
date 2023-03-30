@@ -27,9 +27,8 @@ TEST(FileTest, ReadWithoutConfiguration)
 {
 	auto file = FileBuilder().build();
 	std::string result;
-	auto val = file.read(result);
 
-	ASSERT_EQ(val, false);
+	ASSERT_TRUE(!file.read(result));
 }
 
 TEST(FileTest, ReadBytes)
@@ -58,22 +57,48 @@ TEST(FileTest, ReadBytes)
 TEST(FileTest, WriteWithoutConfiguration)
 {
 	auto file = FileBuilder().build();
-	auto val = file.write("test");
 
-	ASSERT_EQ(val , false);
+	ASSERT_TRUE(!file.write("test"));
 }
 
 TEST(FileTest, Write)
 {
-	auto file = FileBuilder().build();
+	auto file = FileBuilder()
+		.setCreationDisposition(File::TRY_CREATE)
+		.setFilePath("write_test.txt")
+		.setAccess(File::WRITE)
+		.build();
 
 	if (!file.open())
 	{
-		std::cerr << "Failed to open file" << std::endl;
+		std::cerr << "Failed to open file: " << lastErrorAsString() << std::endl;
 		FAIL();
 	}
 
-	auto val = file.write("test");
+	auto ok = file.write("test");
 
-	ASSERT_EQ(val, true);
+	if (!ok)
+	{
+		std::cerr << "Failed to write to file: " << lastErrorAsString() << std::endl;
+		FAIL();
+	}
+
+	SUCCEED();
 }
+
+TEST(FileTest, WriteWithoutAccess)
+{
+	auto file = FileBuilder()
+		.setCreationDisposition(File::TRY_CREATE)
+		.setFilePath("write_test.txt")
+		.build();
+
+	if (!file.open())
+	{
+		std::cerr << "Failed to open file: " << lastErrorAsString() << std::endl;
+		FAIL();
+	}
+
+	ASSERT_TRUE(!file.write("test"));
+}
+
